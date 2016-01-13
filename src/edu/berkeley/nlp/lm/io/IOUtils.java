@@ -24,6 +24,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.zip.GZIPInputStream;
 import java.util.zip.GZIPOutputStream;
+import java.util.zip.ZipException;
 
 import edu.berkeley.nlp.lm.util.StrUtils;
 
@@ -44,7 +45,10 @@ public class IOUtils
 
 	public static BufferedReader openIn(final File path) throws IOException {
 		InputStream is = getBufferedInputStream(path);
-		if (path.getName().endsWith(".gz")) is = new GZIPInputStream(is);
+		try { 
+			is = new GZIPInputStream(is);
+		} catch (ZipException e) {
+		}
 		return new BufferedReader(getReader(is));
 	}
 
